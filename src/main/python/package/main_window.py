@@ -7,6 +7,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ctx = ctx
         self.setWindowTitle("PyExplorer")
         self.setup_ui()
+        self.create_file_model()
 
     def setup_ui(self):
         self.create_widgets()
@@ -39,3 +40,12 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def setup_connections(self):
         pass
+
+    def create_file_model(self):
+        self.model = QtWidgets.QFileSystemModel()
+        root_path = QtCore.QDir.rootPath()
+        self.model.setRootPath(root_path)
+        self.tree_view.setModel(self.model)
+        self.list_view.setModel(self.model)
+        self.list_view.setRootIndex(self.model.index(root_path))
+        self.tree_view.setRootIndex(self.model.index(root_path))
