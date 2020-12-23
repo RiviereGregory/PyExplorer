@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+
+# IntelliJ
+*.iml
+.idea/
+.idea/misc.xml
+.idea/modules.xml
+.idea/warmup.iml
+.idea/assetWizardSettings.xml
+.idea/workspace.xml
+.idea/inspectionProfiles/
+.idea/inspectionProfiles/profiles_settings.xml
+
+
+Scripts/
+Lib/
