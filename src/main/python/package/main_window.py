@@ -39,7 +39,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.main_layout.addWidget(self.sld_iconSize)
 
     def setup_connections(self):
-        pass
+        self.tree_view.clicked.connect(self.treeview_clicked)
 
     def create_file_model(self):
         self.model = QtWidgets.QFileSystemModel()
@@ -49,3 +49,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.list_view.setModel(self.model)
         self.list_view.setRootIndex(self.model.index(root_path))
         self.tree_view.setRootIndex(self.model.index(root_path))
+
+    def treeview_clicked(self, index):
+        if self.model.isDir(index):
+            self.list_view.setRootIndex(index)
+        else:
+            self.list_view.setRootIndex(index.parent())
