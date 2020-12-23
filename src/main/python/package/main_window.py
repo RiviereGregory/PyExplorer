@@ -27,6 +27,16 @@ class MainWindow(QtWidgets.QMainWindow):
         css_file = self.ctx.get_resource("style.css")
         with open(css_file, "r") as f:
             self.setStyleSheet(f.read())
+        # Modification de la vue dans listView pour afficher des icone au lieu de list
+        self.list_view.setViewMode(QtWidgets.QListView.IconMode)
+        self.list_view.setUniformItemSizes(True)
+        self.list_view.setIconSize(QtCore.QSize(48, 48))
+        # Ajout du trie
+        self.tree_view.setSortingEnabled(True)
+        # Ajout de la couleur alterné des ligne
+        self.tree_view.setAlternatingRowColors(True)
+        # Modication de l'entête pour s'adapter
+        self.tree_view.header().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
 
     def create_layouts(self):
         self.main_layout = QtWidgets.QHBoxLayout(self.main_widget)
