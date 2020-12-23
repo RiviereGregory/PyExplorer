@@ -33,7 +33,11 @@ class MainWindow(QtWidgets.QMainWindow):
         # Modification de la vue dans listView pour afficher des icone au lieu de list
         self.list_view.setViewMode(QtWidgets.QListView.IconMode)
         self.list_view.setUniformItemSizes(True)
+        # taille des icones
         self.list_view.setIconSize(QtCore.QSize(48, 48))
+        self.sld_iconSize.setRange(48, 256)
+        self.sld_iconSize.setValue(48)
+
         # Ajout du trie
         self.tree_view.setSortingEnabled(True)
         # Ajout de la couleur alterné des ligne
@@ -65,6 +69,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.tree_view.clicked.connect(self.treeview_clicked)
         self.list_view.clicked.connect(self.listview_clicked)
         self.list_view.doubleClicked.connect(self.listview_double_clicked)
+        self.sld_iconSize.valueChanged.connect(self.change_icon_size)
+
+    def change_icon_size(self, value):
+        self.list_view.setIconSize(QtCore.QSize(value, value))
 
     def change_location(self, location):
         # Récuperation du chemin des dossiers en rapport avec les icones
