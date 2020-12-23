@@ -5,6 +5,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, ctx):
         super().__init__()
         self.ctx = ctx
+        self.setWindowTitle("PyExplorer")
         self.setup_ui()
 
     def setup_ui(self):
