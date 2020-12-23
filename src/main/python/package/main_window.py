@@ -1,4 +1,6 @@
-from PySide2 import QtWidgets, QtCore
+from functools import partial
+
+from PySide2 import QtWidgets, QtCore, QtGui
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -13,6 +15,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.create_widgets()
         self.create_layouts()
         self.modify_widgets()
+        self.add_actions_to_toolbar()
         self.add_widgets_to_layouts()
         self.setup_connections()
 
@@ -48,10 +51,30 @@ class MainWindow(QtWidgets.QMainWindow):
         self.main_layout.addWidget(self.list_view)
         self.main_layout.addWidget(self.sld_iconSize)
 
+    def add_actions_to_toolbar(self):
+        # Ajout des nom des icones svg
+        locations = ["home", "desktop", "documents", "movies", "pictures", "music"]
+        for location in locations:
+            icon = self.ctx.get_resource(f"{location}.svg")
+            # Ajout icone et infobulle
+            action = self.toolbar.addAction(QtGui.QIcon(icon), location.capitalize())
+            # connection bouton
+            action.triggered.connect(partial(self.change_location, location))
+
     def setup_connections(self):
         self.tree_view.clicked.connect(self.treeview_clicked)
         self.list_view.clicked.connect(self.listview_clicked)
         self.list_view.doubleClicked.connect(self.listview_double_clicked)
+
+    def change_location(self, location):
+        # Récuperation du chemin des dossiers en rapport avec les icones
+        # voir pour les chemins
+        # https://doc.qt.io/qt-5/qstandardpaths.html#StandardLocation-enum
+        path = eval(f"QtCore.QStandardPaths().standardLocations(QtCore.QStandardPaths.{location.capitalize()}Location)")
+        path = path[0]
+        # Utilisation du path dans list et tree view avec le model index
+        self.tree_view.setRootIndex(self.model.index(path))
+        self.list_view.setRootIndex(self.model.index(path))
 
     def create_file_model(self):
         self.model = QtWidgets.QFileSystemModel()
